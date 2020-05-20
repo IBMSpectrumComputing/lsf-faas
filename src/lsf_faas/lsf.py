@@ -19,6 +19,7 @@ from concurrent.futures import ThreadPoolExecutor
 import datetime
 import errno
 import functools
+from functools import wraps
 import getpass
 import inspect
 from IPython import get_ipython
@@ -52,16 +53,17 @@ class lsf(object):
             father = list(os.listdir(self.work_dir))
             for i in range(len(father)):
                 subidr = os.sep.join([self.work_dir , father[i]])
-                path_date = os.path.getmtime(subidr)
-                current = time.time()
-                num = (current - path_date)/60/60/24
-                if num >= 30:
-                    try:
-                        shutil.rmtree(subidr)
-                        fomrat_date = datetime.datetime.fromtimestamp(path_date).strftime('%Y-%m-%d')
-                        print("Deleted %s: %s" % (subidr, fomrat_date))
-                    except Exception as e:
-                        print(e)
+                if os.path.isdir(subidr):
+                    path_date = os.path.getmtime(subidr)
+                    current = time.time()
+                    num = (current - path_date)/60/60/24
+                    if num >= 30:
+                        try:
+                            shutil.rmtree(subidr)
+                            fomrat_date = datetime.datetime.fromtimestamp(path_date).strftime('%Y-%m-%d')
+                            print("Deleted %s: %s" % (subidr, fomrat_date))
+                        except Exception as e:
+                            print(e)
         else:
             os.makedirs(self.work_dir)
 
@@ -123,7 +125,15 @@ class lsf(object):
             tmp_file.write('import base64 \n')
             tmp_file.write('import dill \n')
             tmp_file.write('\n')
-            tmp_file.write(inspect.getsource(func))
+            # remove symbol of decorator
+            lines = inspect.getsource(func).split('\n')
+            output =''
+            for line in lines:
+                if (line.startswith('@')) == False:
+                    output += line
+                    output += '\n'
+            tmp_file.write(output)
+
             tmp_file.write('\n')
 
             counts = 1
@@ -679,3 +689,13 @@ if __name__ == "__main__":
         sys.exit('Import Failed. This tool can only be used in IPYTHON context.')
     else:
         lsf = lsf()
+        def bsub(func):
+            @wraps(func)
+            def with_bsub(*arguments, files = None, asynchronous = False):
+                return lsf.sub(func,  *arguments, files = files, asynchronous = asynchronous)
+            return with_bsub
+        def bexe(func):
+            @wraps(func)
+            def with_bexe(*arguments, files = None, timeout = 60):
+                return lsf.exe(func, *arguments, files = files, timeout = timeout)
+            return with_bexe
