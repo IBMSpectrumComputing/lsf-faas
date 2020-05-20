@@ -13,9 +13,20 @@
 # limitations under the License.
 
 from lsf_faas.lsf import *
+from functools import wraps
 
 ipython = get_ipython()
 if ipython is None:
     print('Import Failed. This tool can only be used in IPYTHON context.')
 else:
     lsf= lsf()
+    def bsub(func):
+        @wraps(func)
+        def with_bsub(*arguments, files = None, asynchronous = False):
+            return lsf.sub(func,  *arguments, files = files, asynchronous = asynchronous)
+        return with_bsub
+    def bexe(func):
+        @wraps(func)
+        def with_bexe(*arguments, files = None, timeout = 60):
+            return lsf.exe(func, *arguments, files = files, timeout = timeout)
+        return with_bexe
