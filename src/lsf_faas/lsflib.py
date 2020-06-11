@@ -121,7 +121,7 @@ def saveToken(url, token, jtoken, work_dir):
     try:
         f = open(fpath, "w")
     except IOError as e:
-        raise  Exception('Cannot open file "%s": %s' % (fpath, e.strerror))
+        raise  Exception('Cannot open file "%s": %s' % (fpath, str(e)))
     else:
         f.write(url)
         f.write('\n')
@@ -177,7 +177,7 @@ def doAction(jobId, action, work_dir):
     try:
         content = content.decode('utf-8')
     except Exception as e:
-        return False, 'Failed to decode content "%s": %s' % (content, e.strerror)
+        return False, 'Failed to decode content "%s": %s' % (content, str(e))
 
     try:
         if response['status'] == '200':
@@ -194,7 +194,7 @@ def doAction(jobId, action, work_dir):
         else:
             return False, 'Failed to %s the task' % action
     except Exception as e:
-        return False, 'Failed to parse content: %s' % e.strerror
+        return False, 'Failed to parse content: %s' % str(e)
 
 
 def downloadFiles(jobId, destination, files, work_dir, asynchronous = False):
@@ -236,12 +236,12 @@ def downloadFiles(jobId, destination, files, work_dir, asynchronous = False):
                 parseDownloadContentBytes(destination, content)
                 return True, ''
             except Exception as e:
-                return False, 'Failed to parse downloaded content: %s' % e.strerror
+                return False, 'Failed to parse downloaded content: %s' % str(e)
         try:
             parseDownloadContentString(destination, content)
             return True, ''
         except Exception as e:
-            return False, 'Failed to parse downloaded content: %s' % e.strerror
+            return False, 'Failed to parse downloaded content: %s' % str(e)
 
 def parseDownloadContentBytes(destination, content):
     boundary = content.split(b"\n")[0].strip()
@@ -343,11 +343,11 @@ def logonAC(username, password, host, port, isHttps, work_dir):
     try:
         response, content = http.request(url + 'webservice/pacclient/logon/', 'GET', body=body, headers=headers)
     except Exception as e:
-        return False, 'Failed to log on the server "%s": %s' % (host, e.strerror)
+        return False, 'Failed to log on the server "%s": %s' % (host, str(e))
     try:
         content = content.decode('utf-8')
     except Exception as e:
-        return False, 'Failed to decode the content "%s": %s' % (content, e.strerror)
+        return False, 'Failed to decode the content "%s": %s' % (content, str(e))
 
     if response['status'] == '200':
         xdoc = minidom.parseString(content)
@@ -392,7 +392,7 @@ def logoutAC(work_dir):
     try:
         content = content.decode('utf-8')
     except Exception as e:
-        return False, 'Failed to decode content "%s": %s' % (content, e.strerror)
+        return False, 'Failed to decode content "%s": %s' % (content, str(e))
 
     if response['status'] == '200':
         if content == 'ok':
@@ -425,7 +425,7 @@ def getJobs(parameter, work_dir):
     try:
         content = content.decode('utf-8')
     except Exception as e:
-        return False, 'Failed to decode content "%s": %s' % (content, e.strerror)
+        return False, 'Failed to decode content "%s": %s' % (content, str(e))
 
     if response['status'] == '200':
         xdoc = ET.fromstring(content)
@@ -486,7 +486,7 @@ def submitJob(scriptname, files, work_dir, asynchronous):
     try:
         content = content.decode('utf-8')
     except Exception as e:
-        return False, 'Failed to decode content "%s": %s' % (content, e.strerror)
+        return False, 'Failed to decode content "%s": %s' % (content, str(e))
 
     if response['status'] == '200':
         xdoc = minidom.parseString(content)
