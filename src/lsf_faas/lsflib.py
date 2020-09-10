@@ -62,7 +62,7 @@ def prepareUpload(upload_files):
     cwd = os.getcwd()
     files = upload_files.split(',')
     paths = ''
-    p = re.compile('^[a-zA-Z]:[/\\][\w\W]+')
+    p = re.compile(r'^[a-zA-Z]:[/\\][\w\W]+')
 
     totalSize = 0
     for f in files:
@@ -454,7 +454,7 @@ def submitJob(scriptname, files, work_dir, asynchronous):
     input_files={}
     input_files['INPUT_FILE'] = scriptname + ',upload'
 
-    if files is not None:
+    if files != None:
         paths = files.split(',')
         i = 0
         for path in paths:
