@@ -45,7 +45,6 @@ CANNOT_CONNECT_SERVER = 'Cannot connect to the server.'
 TOKEN_IS_DELETED = 'Your token is empty or was deleted.'
 
 
-
 def checkField(field):
     if field != None:
         if field.text == None :
@@ -404,7 +403,29 @@ def logoutAC(work_dir):
 
 
 def verifyToken(work_dir):
-    return getJobs('', work_dir)
+    url, token = getToken(work_dir)
+    if token == '':
+        return False, TOKEN_IS_DELETED
+    try:
+        http = getHttp(url, work_dir)
+    except Exception as e:
+        return False, str(e)
+
+    headers = {'Content-Type': 'application/xml', 'Cookie': token, 'Accept': MULTIPLE_ACCEPT_TYPE, 'Accept-Language': 'en-us'}
+    try:
+        response, content = http.request(url + 'webservice/pacclient/ping', 'GET', headers = headers)
+    except Exception as e:
+        return False, CANNOT_CONNECT_SERVER
+
+    try:
+        content = content.decode('utf-8')
+    except Exception as e:
+        return False, 'Failed to decode content "%s": %s' % (content, str(e))
+
+    if response['status'] == '200':
+        return True, content
+    else:
+        return False, CANNOT_CONNECT_SERVER
 
 
 def getJobs(parameter, work_dir):

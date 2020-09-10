@@ -19,28 +19,14 @@ You should install them in your Python environment.
 
 ## Deployment
 ### Installation
-Clone or download this repo and navigate to the repo root directory. There are 2 ways to install `lsf_faas`.
-- Automatically import `lsf_faas`  
-It is preferred to import `lsf_faas` module automaticlly when IPython is started.
-```bash
-setup.sh src/lsf_faas
-```
-
-- Manually import `lsf_faas`  
-Alternatively, you can install the package by `setup.py` script and then use it on demand by running 'import' in your Python context.
+Clone or download this repo and navigate to the repo root directory. Install the package by `setup.py` script and then use it on demand by running 'import' in your Python context.
 ```bash
 sudo python3 setup.py install
 ```
-In manual case, please make sure `lsf_faas` module by imported first to make sure it works as expeced.
 ```python
 In [1]:from lsf_faas import lsf
 ```
-
-### Uninstallation
-If you want to remove the `lsf_faas` script files from IPython startup work directory, then run below command
-```
-setup.sh -r
-```
+Please import `lsf_faas` module first of all to make sure it works as expected.
 
 ## Usage
 Help message is dispalyed in Python by calling `help`.
