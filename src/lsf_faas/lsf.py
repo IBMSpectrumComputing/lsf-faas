@@ -96,7 +96,7 @@ class lsf(object):
                     for line in input_module_list:
                         words = line.split(' ')
                         for word in words:
-                            if word is not 'import' and word is not 'from' and (missed_module == word or missed_module in word):
+                            if word != 'import' and word != 'from' and (missed_module == word or missed_module in word):
                                 return
                         self.__input_module_set.add(line)
 
@@ -271,7 +271,7 @@ class lsf(object):
             return None
 
         paths = None
-        if files is not None:
+        if files != None:
             if files != '':
                 success, content = prepareUpload(files)
                 if success:
@@ -295,7 +295,7 @@ class lsf(object):
         os.chmod(script_name, 0o744)
         value = {}
         # only for upload file
-        if not block and paths is not None and asynchronous:
+        if not block and paths != None and asynchronous:
             if self.__thread_pool is None:
                 self.__thread_pool = ThreadPoolExecutor(max_workers=5)
             future_task = self.__thread_pool.submit(submitJob, script_name, paths, self.work_dir, asynchronous)
@@ -350,7 +350,7 @@ class lsf(object):
             # no matter success or not, also force logout
             self.__is_logged =False
             removeToken(self.work_dir)
-            if self.__thread_pool is not None:
+            if self.__thread_pool != None:
                 self.__thread_pool.shutdown()
             if not success:
                 print(content)
