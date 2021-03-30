@@ -1,7 +1,7 @@
 # LSF Python Function as a Service Package
 This package is designed to invoke function calls (especially for time-consuming functions) via LSF as jobs without blocking current interactive shell.
 
-<p align="center"><img src="docs/images/lsf_faas.png"></p>
+<p align="center"><img src="docs/images/lsf-faas.png"></p>
 
 ## Precondition
 1. server side  
@@ -89,7 +89,9 @@ In [25]:
 ```
 
 ### Functions
-For details, please use Python `help` function to get the description.
+For the API documentation, please refer to [API references](docs/api.md) for details.
+
+Or, you can use Python `help` function to get the documentation.
 - session management
   - `lsf.logon()`
   - `lsf.logout()`
@@ -100,6 +102,7 @@ For details, please use Python `help` function to get the description.
   - `lsf.cancel()`
 - file management
   - `lsf.download()`
+
 ## Notice
 Currently, only modules start with "import" or "from" can be managed by `lsf_faas` automatically. If your Python function uses other way to `import` a module, the function cannot be executed successfully in `IBM Spectrum LSF`.
 
