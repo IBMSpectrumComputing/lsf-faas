@@ -462,16 +462,16 @@ class lsf(object):
         id: The function id.
         files: Only support relative path(eg: a.txt or ./a.txt). To specify multiple files, separate with a comma(,).
         destination: Specify the absolute path. If destination is None, download to work_dir/id.
-        asynchronous: Whether downlaod the files your specified asynchronously. Only use with the 'files' parameter specified.
+        asynchronous: Whether download the files your specified asynchronously. Only use with the 'files' parameter specified.
 
         Examples:
-        # Download the fucntion' file a.txt to /tmp/
+        # Download the function' file a.txt to /tmp/
         >>> lsf.download(id,'a.txt','/tmp/')
-        # Download the fucntion' file a.txt and b.txt to work_dir/id
+        # Download the function' file a.txt and b.txt to work_dir/id
         >>> lsf.download(id,'a.txt,b.txt')
-        # Download the fucntion' file a.txt to /tmp/ asynchronously
+        # Download the function' file a.txt to /tmp/ asynchronously
         >>> lsf.download(id,'a.txt','/tmp/',asynchronous = True)
-        # Download the fucntion' file a.txt and b.txt to work_dir/id asynchronously
+        # Download the function' file a.txt and b.txt to work_dir/id asynchronously
         >>> lsf.download(id,'a.txt,b.txt',asynchronous = True)
         """
         if not self.__is_logged:
@@ -568,7 +568,7 @@ class lsf(object):
 
         Parameters:
         func: function name.
-        arguments: Represents any number of unnamed parameters.
+        arguments: any number of unnamed parameters.
         files: If the function has some dependency files you can upload files by set to the file absolute path
           which will be uploaded from local to server. To specify multiple files, separate with a comma(,).
         asynchronous: Whether upload the files your specified asynchronously. Only use together with the 'files' parameter.
@@ -606,7 +606,7 @@ class lsf(object):
 
         Parameters:
         func: function name.
-        arguments: Represents any number of unnamed parameters.
+        arguments: any number of unnamed parameters.
         files: If the function has some dependency files you can set files to the file absolute path
                      which will be uploaded from local to server. To specify multiple files, separate with a comma(,).
         timeout(in seconds): If not specified, use timeout = 60. If timeout or press 'CTRL-C', the function will be canceled.
