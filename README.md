@@ -1,7 +1,7 @@
 # LSF Python Function as a Service Package
 This package is designed to invoke function calls (especially for time-consuming functions) via LSF as jobs without blocking current interactive shell.
 
-<p align="center"><img src="img/lsf_faas.png"></p>
+<p align="center"><img src="docs/images/lsf_faas.png"></p>
 
 ## Precondition
 1. server side  
